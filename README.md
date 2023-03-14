@@ -1,2 +1,2 @@
-# RV3-HF-Exporter
-RV3 Extension to extract ASCII HF Data
+# R&C Terrain Suite
+Internal Terrain Making tools for R&C Team

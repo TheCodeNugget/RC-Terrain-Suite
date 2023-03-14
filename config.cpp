@@ -1,8 +1,6 @@
-class CfgPatches
-{
-	class DHE
-	{
-		name="Deformer Heightfield Exporter";
+class CfgPatches {
+	class RnCTS {
+		name="R&C Terrain Suite";
 		author="KenTheNugget";
 		units[]={};
 		weapons[]={};
@@ -10,16 +8,68 @@ class CfgPatches
 		requiredAddons[]= {
 			"3den"
 		};
-		fileName="DHE.pbo";
+		fileName="RnCTS.pbo";
+		is3DENmod = 1;
+	};
+};
+
+class CfgUserActions {
+	class RNC_snap2Surface { // This class name is used for internal representation and also for the inputAction command.
+		displayName = "Snap To Surface";
+		tooltip = "Snap to surface.";
+		onActivate = "";		// _this is always true.
+		onDeactivate = "[1] spawn RNC_fnc_objectModifier";		// _this is always false.
+		onAnalog = "";	// _this is the scalar analog value.
+		analogChangeThreshold = 0.1; // Minimum change required to trigger the onAnalog EH (default: 0.01).
+		modifierBlocking=1;
+	};
+	
+	class RNC_orient2Sea { // This class name is used for internal representation and also for the inputAction command.
+		displayName = "Orient to Sea Normal";
+		tooltip = "Snap to surface keybind.";
+		onActivate = "";		// _this is always true.
+		onDeactivate = "[2] spawn RNC_fnc_objectModifier";		// _this is always false.
+		onAnalog = "";	// _this is the scalar analog value.
+		analogChangeThreshold = 0.1; // Minimum change required to trigger the onAnalog EH (default: 0.01).
+		modifierBlocking=1;
+	};
+	
+	class RNC_orient2Ground { // This class name is used for internal representation and also for the inputAction command.
+		displayName = "Orient to Terrain Normal";
+		tooltip = "Orient to Terrain Normal.";
+		onActivate = "";		// _this is always true.
+		onDeactivate = "[3] spawn RNC_fnc_objectModifier";		// _this is always false.
+		onAnalog = "";	// _this is the scalar analog value.
+		analogChangeThreshold = 0.1; // Minimum change required to trigger the onAnalog EH (default: 0.01).
+		modifierBlocking=1;
+	};
+	
+	class RNC_openAttributes { // This class name is used for internal representation and also for the inputAction command.
+		displayName = "Open Attributes";
+		tooltip = "Open Attributes on selected.";
+		onActivate = "";		// _this is always true.
+		onDeactivate = "[4] spawn RNC_fnc_objectModifier";		// _this is always false.
+		onAnalog = "";	// _this is the scalar analog value.
+		analogChangeThreshold = 0.1; // Minimum change required to trigger the onAnalog EH (default: 0.01).
+		modifierBlocking=1;
+	};
+};
+
+class UserActionGroups {
+	class ModSection { // Unique classname of your category.
+		name = "R&C Terrain Suite"; // Display name of your category.
+		isAddon = 1;
+		group[] = {"RNC_snap2Surface", "RNC_orient2Sea", "RNC_orient2Ground", "RNC_openAttributes"}; // List of all actions inside this category.
 	};
 };
 
 class CfgFunctions {
-	class DHE {
-		tag="DHE";
+	class RNC {
+		tag="RNC";
 		class functions {
-			file="\DHE\functions";
+			file="\RnCTS\functions";
 			class exportHF {};
+			class objectModifier {};
 		};
 	};
 };
@@ -27,15 +77,15 @@ class CfgFunctions {
 class RscPicture;
 class RscText;
 class RscProgress;
-class DHE_ProgressBar {
+class RNC_ProgressBar {
 	show=0;
 	movingEnable=0;
 	idd=-1;
-	onLoad="uiNamespace setVariable [""DHE_ProgressBar_Display"", (_this select 0)];";
-	onUnload="uiNamespace setVariable [""DHE_ProgressBar_Display"", nil];";
+	onLoad="uiNamespace setVariable [""RNC_ProgressBar_Display"", (_this select 0)];";
+	onUnload="uiNamespace setVariable [""RNC_ProgressBar_Display"", nil];";
 	class ControlsBackground
 	{
-		class DHE_Select_Mainback: RscPicture
+		class RNC_Select_Mainback: RscPicture
 		{
 			idc=-1;
 			x="0.2 * safezoneW + safezoneX";
@@ -48,7 +98,7 @@ class DHE_ProgressBar {
 	};
 	class Controls
 	{
-		class DHE_ProgressBar_Text: RscText
+		class RNC_ProgressBar_Text: RscText
 		{
 			idc=34516;
 			text="";
@@ -58,7 +108,7 @@ class DHE_ProgressBar {
 			w="0.6 * safezoneW";
 			h="0.04 * safezoneH";
 		};
-		class DHE_ProgressBar_Bar: RscProgress
+		class RNC_ProgressBar_Bar: RscProgress
 		{
 			idc=34517;
 			text="";
@@ -78,13 +128,13 @@ class display3DEN {
 			class Items {
 				class MissionExport {
 					items[]+= {
-						"DHEExportHF",
+						"RNCExportHF",
 					};
 				};
-				class DHEExportHF {
+				class RNCExportHF {
 					text="Export Heightfield";
-					data="E2TBMissionTerrainBuilder";
-					action="[] spawn DHE_fnc_exportHF;";
+					data="RNCExportHF";
+					action="[] spawn RNC_fnc_exportHF;";
 				};
 			};
 		};
@@ -93,8 +143,28 @@ class display3DEN {
 
 class Cfg3DEN {
 	class Notifications {
-		class DHE_exportDone {
+		class RNC_exportDone {
 			text="Heightfield Exported";
+			isWarning=0;
+		};
+		
+		class RNC_snapped {
+			text="Objects Snapped to Ground";
+			isWarning=0;
+		};
+		
+		class RNC_seaOriented {
+			text="Objects Oriented to Sea";
+			isWarning=0;
+		};
+		
+		class RNC_groundOriented {
+			text="Objects Oriented to Ground";
+			isWarning=0;
+		};
+		
+		class RNC_noObjectsSelected {
+			text="Objects Oriented to Ground";
 			isWarning=0;
 		};
 	};
