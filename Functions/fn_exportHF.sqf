@@ -9,6 +9,8 @@ yllcorner 0.000000
 cellsize %2
 NODATA_value -9999",_resolution, _cellsize];
 
+_filecommand = format["open:%1-hf.asc", worldName];
+
 // progress bar IDc
 private _textId = 34516;
 private _barId  = 34517;
@@ -24,7 +26,7 @@ private _display = uiNamespace getVariable "RnCTS_ProgressBar_Display";
 private _bar     = _display displayCtrl _barId;
 private _barText = _display displayCtrl _textId;
 
-"ConfigDumpFileIO" callExtension "open:hf.asc";
+"ConfigDumpFileIO" callExtension _filecommand;
 
 "ConfigDumpFileIO" callExtension ("write:"+_header);
 
