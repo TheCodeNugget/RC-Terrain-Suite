@@ -17,10 +17,10 @@ private _barId  = 34517;
 disableSerialization;
 
 // create dialog
-createDialog "RNC_ProgressBar";
+createDialog "RnCTS_ProgressBar";
 
 // get controls
-private _display = uiNamespace getVariable "RNC_ProgressBar_Display";
+private _display = uiNamespace getVariable "RnCTS_ProgressBar_Display";
 private _bar     = _display displayCtrl _barId;
 private _barText = _display displayCtrl _textId;
 
@@ -47,5 +47,5 @@ for "_y" from (_resolution - 1) to 0 step -1 do {
 
 disableUserInput false;
 disableSerialization;
-["RNC_exportDone", 5] call BIS_fnc_3DENNotification;
+["RnCTS_exportDone", 5] call BIS_fnc_3DENNotification;
 closeDialog 1;
