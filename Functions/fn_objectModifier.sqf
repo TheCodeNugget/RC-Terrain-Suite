@@ -3,17 +3,17 @@ params ["_mode"];
 switch (_mode) do {
 	case 1: {
 		do3DENAction "SnapToSurface";
-		["RNC_snapped", 3] call BIS_fnc_3DENNotification;
+		["RnCTS_snapped", 3] call BIS_fnc_3DENNotification;
 	};
 	
 	case 2: {
 		do3DENAction "LevelOutObjects";
-		["RNC_seaOriented", 3] call BIS_fnc_3DENNotification;
+		["RnCTS_seaOriented", 3] call BIS_fnc_3DENNotification;
 	};
 	
 	case 3: {
 		do3DENAction "LevelWithSurface";
-		["RNC_groundOriented", 3] call BIS_fnc_3DENNotification;
+		["RnCTS_groundOriented", 3] call BIS_fnc_3DENNotification;
 	};
 	
 	case 4: {
